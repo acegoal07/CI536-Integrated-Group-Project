@@ -16,6 +16,7 @@
    <link href="https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap" rel="stylesheet" />
    <script src="assets/js/flickity.pkgd-min.js" defer></script>
    <link rel="stylesheet" href="assets/css/flickity-min.css">
+   <script src="assets/js/modalHandler.js" defer></script>
 </head>
 
 <body>
@@ -222,7 +223,7 @@
    <!-- Weekly/all time leaderboard popup -->
    <div id="leaderboard-popup" class="popup-background">
       <div class="popup-body">
-         <a data-popup-close-target="leaderboard-popup">
+         <a class="modal-closer">
             <div class="popup-close-btn-background">
                <div class="popup-close-btn-line-1"></div>
                <div class="popup-close-btn-line-2"></div>
@@ -274,7 +275,7 @@
       </div>
       <!-- Nav -->
       <div class="nav-grid-section">
-         <img data-popup-open-target="leaderboard-popup" data-target-popup-type="leaderboard-popup" class="nav-button"
+         <img id="leaderboard-modal-opener" modal-target="leaderboard-popup" class="nav-button"
             src="assets/images/leaderboardIcon.webp" alt="Leaderboard button" />
          <div class="pomodoro-counter-container">
             <span class="pomodoro-counter" id="pomodoro-counter">0</span>
