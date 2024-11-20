@@ -8,15 +8,17 @@
    <meta name="description" content="A focus tracker" />
    <link rel="shortcut icon" href="assets/images/favi.ico" />
    <link rel="stylesheet" href="assets/css/style-min.css" />
-   <script src="assets/js/timer-min.js" defer></script>
-   <script src="assets/js/base-min.js" defer></script>
+   <script src="assets/js/util/timer-min.js" defer></script>
+   <script src="assets/js/util/cookies-min.js" defer></script>
+   <script src="assets/js/util/notificationHandler-min.js" defer></script>
+   <script src="assets/js/util/modalHandler-min.js" defer></script>
+   <script src="assets/js/util/flickity.pkgd-min.js" defer></script>
+   <link rel="stylesheet" href="assets/css/flickity-min.css">
+   <script src="assets/js/base.js" defer></script>
    <link rel="preconnect" href="https://fonts.googleapis.com" />
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet" />
    <link href="https://fonts.googleapis.com/css2?family=Sixtyfour&display=swap" rel="stylesheet" />
-   <script src="assets/js/flickity.pkgd-min.js" defer></script>
-   <link rel="stylesheet" href="assets/css/flickity-min.css">
-   <script src="assets/js/modalHandler.js" defer></script>
 </head>
 
 <body>
@@ -31,7 +33,7 @@
    <!-- Add todo popup -->
    <div id="todo-popup" class="popup-background">
       <div class="popup-body">
-         <a data-popup-close-target="todo-popup">
+         <a class="modal-closer">
             <div class="popup-close-btn-background">
                <div class="popup-close-btn-line-1"></div>
                <div class="popup-close-btn-line-2"></div>
@@ -60,7 +62,7 @@
    <!-- Todo item popup -->
    <div id="todo-item-popup" class="popup-background" data-task-id-storage="">
       <div class="popup-body">
-         <a data-popup-close-target="todo-item-popup">
+         <a class="modal-closer">
             <div class="popup-close-btn-background">
                <div class="popup-close-btn-line-1"></div>
                <div class="popup-close-btn-line-2"></div>
@@ -91,7 +93,7 @@
    <!-- Login/registration popup -->
    <div id="account-popup" class="popup-background">
       <div class="popup-body">
-         <a data-popup-close-target="account-popup">
+         <a class="modal-closer">
             <div class="popup-close-btn-background">
                <div class="popup-close-btn-line-1"></div>
                <div class="popup-close-btn-line-2"></div>
@@ -177,7 +179,7 @@
    <!-- Information Popup -->
    <div id="information-popup" class="popup-background">
       <div class="popup-body">
-         <a data-popup-close-target="information-popup">
+         <a class="modal-closer">
             <div class="popup-close-btn-background">
                <div class="popup-close-btn-line-1"></div>
                <div class="popup-close-btn-line-2"></div>
@@ -248,7 +250,7 @@
    <!-- Timer settings popup -->
    <div id="timer-settings-popup" class="popup-background">
       <div class="popup-body">
-         <a data-popup-close-target="timer-settings-popup">
+         <a class="modal-closer">
             <div class="popup-close-btn-background">
                <div class="popup-close-btn-line-1"></div>
                <div class="popup-close-btn-line-2"></div>
@@ -256,7 +258,7 @@
          </a>
          <h1 class="popup-header">Settings</h1>
          <h2>Change the length of your Pomodoros and breaks</h2>
-         <form  class="popup-form">
+         <form class="popup-form">
             <label for="study-duration">Study time in minutes</label>
             <input type="number" inputmode="numeric" id="study-duration" name="study-duration" required min="1" max="60"
                value="25">
@@ -285,17 +287,17 @@
                   cy="50" r="45" />
             </svg>
          </div>
-         <img data-popup-open-target="account-popup" class="nav-button" src="assets/images/loginIcon.webp"
+         <img modal-target="account-popup" class="nav-button modal-opener" src="assets/images/loginIcon.webp"
             alt="Login button" />
-         <img data-popup-open-target="information-popup" data-target-popup-type="information-popup" class="nav-button"
-            src="assets/images/informationIcon.webp" alt="Information" />
+         <img id="information-modal-opener" class="nav-button" src="assets/images/informationIcon.webp"
+            alt="Information" />
       </div>
       <!-- Timer -->
       <div class="timer-grid-section">
          <div class="timer-grid-container">
             <div class="timer-settings-container">
-               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="child-left"
-                  data-popup-open-target="timer-settings-popup">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="child-left modal-opener"
+                  modal-target="timer-settings-popup">
                   <path
                      d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z" />
                </svg>
@@ -330,8 +332,8 @@
       <div class="todo-grid-section">
          <div class="todo-grid-container">
             <h1 class="todo-header">TO DO:</h1>
-            <div id="todo-create-button" data-popup-open-target="todo-popup" data-target-popup-type="create-todo-popup"
-               class="todo-add-btn-background disabled">
+            <div id="todo-create-button" modal-target="todo-popup"
+               class="todo-add-btn-background modal-opener disabled">
                <div class="todo-add-btn-horizontal-plus"></div>
                <div class="todo-add-btn-vertical-plus"></div>
             </div>

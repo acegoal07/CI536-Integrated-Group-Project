@@ -12,10 +12,10 @@ class ModalHandler {
    async open(modalId, callback = null) {
       if (this.modal || !modalId) { return; }
       this.modal = document.querySelector(`#${modalId}`);
-      if (callback) { callback(); }
       this.modal.style.animation = "popupOpenAnimation 0.5s forwards";
       this.modal.style.display = "flex";
       document.body.style.overflow = "hidden";
+      if (callback) { callback(); }
    }
 
    /**
@@ -26,6 +26,7 @@ class ModalHandler {
    async close(callback = null) {
       if (!this.modal) { return; }
       this.modal.style.animation = "popupCloseAnimation 0.5s forwards";
+      document.body.style.overflow = "auto";
       setTimeout(() => {
          this.modal.style.display = "none";
          if (callback) { callback(); }

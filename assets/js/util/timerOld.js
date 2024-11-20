@@ -5,7 +5,6 @@ class PomoTimer {
       this.currentPositionMS = 0;
       this.timerActive = false;
       this.blurred = false;
-      this.alarmActive = false;
    }
 
    /**
@@ -74,7 +73,6 @@ class PomoTimer {
          if (this.isActive()) {
             if (this.getCurrentPositionMS() === 0 && !this.alarmActive) {
                this.timerActive = false;
-               // this.playAlarm();
             }
             const actualValue =
                this.getCurrentPositionMS == 0
@@ -93,7 +91,6 @@ class PomoTimer {
             this.timerActive = false;
          }
       }, 1000);
-      // this.alarmActive = false;
    }
 
    /**
@@ -110,30 +107,5 @@ class PomoTimer {
       this.timerLengthMS = null;
       this.currentPositionMS = 0;
       this.timerActive = false;
-   }
-
-   /**
-    * plays the alarm sound
-    */
-   playAlarm() {
-      const alarmAudio = new Audio("assets/sounds/digitalAlarm.wav");
-      alarmAudio.addEventListener("ended", () => {
-         this.alarmActive = false;
-         console.log("Audio ended TEST");
-      });
-      alarmAudio.play();
-      this.alarmActive = true;
-      setInterval(() => {
-         if (!this.alarmActive) {
-            alarmAudio.pause();
-         }
-      }, 100);
-   }
-
-   /**
-    * pauses the alarm sound
-    */
-   pauseAlarm() {
-      this.alarmActive = false;
    }
 }
